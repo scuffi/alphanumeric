@@ -1,47 +1,93 @@
-<script lang="ts">
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+<script>
+  import Icon from '@iconify/svelte';
+
+  import { lexicon } from "./lib/lexicon";
+	import Flashcard from "./lib/components/Flashcard.svelte";
+	
+	let flashcardIndex = 0;
+	$: front = lexicon[flashcardIndex];
+	$: back = flashcardIndex + 1;
+	
+	let showCardBack = false;	
+	const toggleShowBack = () => showCardBack = !showCardBack;
+
+  const randomIndex = () => {
+    return Math.floor(Math.random() * lexicon.length);
+  }
+	
+	const nextCard = () => {
+		showCardBack = false;
+		flashcardIndex = randomIndex();
+	}
 </script>
 
 <main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
+	<!-- FLASHCARD -->
+	<div class="flip-box">
+		<div class="flip-box-inner" class:flip-it={showCardBack}>
+			<Flashcard {front} 
+								 {back} 
+								 {showCardBack} 
+								 />
+		</div>
+	</div>
 
-  <div class="card">
-    <Counter />
-  </div>
+	<!-- BUTTONS -->
+	<div id="btn-cont">
+		<!-- <button class="btn btn-info" on:click={nextCard}>&#8592;</button> -->
+		
 
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
+    <button class="btn btn-primary" on:click={toggleShowBack}>
+      {showCardBack ? "Hide Answer" : "Show Answer"}
+    </button>
+		<button class="btn btn-ghost" on:click={nextCard}><Icon icon="heroicons:arrow-path-rounded-square" height=24 /></button>
+	</div>
 </main>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-  }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
-  }
-  .read-the-docs {
-    color: #888;
-  }
+	main {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin-top: 15%;
+		height: 100vh;
+	}
+	
+	/* The flip box container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+	.flip-box {
+		background-color: transparent;
+		width: 400px;
+		height: 300px;
+/* 		border: 1px solid #ddd; */
+		perspective: 1000px; /* Remove this if you don't want the 3D effect */
+	}
+
+	/* This container is needed to position the front and back side */
+	.flip-box-inner {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		text-align: center;
+		transition: transform 0.4s;
+		transform-style: preserve-3d;
+	}
+
+	/* Do an horizontal flip on button click */
+	.flip-it {
+		transform: rotateY(180deg);
+	}
+	
+	#btn-cont {
+		width: 200px;
+		padding: 10px 0;
+		display: flex;
+		justify-content: space-evenly;
+	}
+
+	/* button {
+		background-color: 	hsl(65, 6%, 40%);
+		padding: 10px 10px;
+		color: white;
+		cursor: pointer;
+	} */
 </style>
