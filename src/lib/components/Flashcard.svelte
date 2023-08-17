@@ -15,7 +15,6 @@
 
 
 <style>
-	/* Position the front and back side */
 	.flip-box-front, .flip-box-back {
 		position: absolute;
 		width: 100%;
@@ -25,7 +24,6 @@
 		box-shadow: -1px 1px 3px black;
 	}
 
-	/* Style the front side */
 	.flip-box-front {
 		background-color: #a0c3ff;
 		color: #1c4da2;
@@ -43,7 +41,6 @@
 		animation: revealTextSlowly .3s forwards;
 	}
 	
-	/* Style the back side */
 	.flip-box-back {
 		display: flex;
 		justify-content: center;
