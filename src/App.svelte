@@ -4,16 +4,16 @@
   import { lexicon } from "./lib/lexicon";
 	import Flashcard from "./lib/components/Flashcard.svelte";
 	
-	let flashcardIndex = 0;
+  const randomIndex = () => {
+    return Math.floor(Math.random() * lexicon.length);
+  }
+
+	let flashcardIndex = randomIndex();
 	$: front = lexicon[flashcardIndex];
 	$: back = flashcardIndex + 1;
 	
 	let showCardBack = false;	
 	const toggleShowBack = () => showCardBack = !showCardBack;
-
-  const randomIndex = () => {
-    return Math.floor(Math.random() * lexicon.length);
-  }
 	
 	const nextCard = () => {
 		showCardBack = false;
@@ -22,11 +22,11 @@
 </script>
 
 <main>
-  <h1 class="text-primary font-bold">
+  <h1 class="text-violet-500 font-bold">
     Alphanumeric
   </h1>
   <p>
-    Waste of time app to learn the index of every letter in the alphabet!11!!!
+    Waste of time app to learn the index of every letter in the alphabet!!!!
   </p>
 
   <div class="body">
